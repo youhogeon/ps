@@ -1,4 +1,4 @@
-package com.youhogeon.test;
+package com.youhogeon.acmicpc;
 
 import java.util.*;
 
