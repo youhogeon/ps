@@ -2,7 +2,7 @@ package com.youhogeon.acmicpc;
 
 import java.util.*;
 
-class Q22114 implements Q{
+class Q22114{
 	private int N, K;
 	private int[] list;
 	private int[] arr1;

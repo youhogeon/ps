@@ -2,7 +2,7 @@ package com.youhogeon.acmicpc;
 
 import java.util.*;
 
-class Q22115 implements Q{
+class Q22115{
 	private int N, K;
 	private List<Integer> C = new LinkedList<Integer>();
 

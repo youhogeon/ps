@@ -2,7 +2,7 @@ package com.youhogeon.acmicpc;
 
 import java.util.Scanner;
 
-public class Q22113 implements Q{
+public class Q22113{
 	
 	private int N, M;
 	private int list[];
