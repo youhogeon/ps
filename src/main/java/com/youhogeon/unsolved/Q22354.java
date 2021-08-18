@@ -1,4 +1,4 @@
-package com.youhogeon.acmicpc;
+package com.youhogeon.unsolved;
 
 import java.io.BufferedReader;
 import java.io.IOException;
