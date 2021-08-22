@@ -1,4 +1,5 @@
 package com.youhogeon.acmicpc;
+import com.youhogeon.unsolved.*;
 
 import java.util.*;
 import java.io.*;
@@ -11,11 +12,7 @@ public class Main {
 		// }catch(Exception e){}
 
 		q.scan();
-		//q.solve();
-		System.out.println(q.solve());
+		q.solve();
+		//System.out.println(q.solve());
 	}
-}
-
-class Q1167{
-	
 }
