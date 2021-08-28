@@ -6,7 +6,7 @@ import com.youhogeon.unsolved.*;
 
 // 	public Q14502() throws IOException{
 // 		Scanner sc = new Scanner(System.in);
-
+//		Buffer
 		
 
 // 		sc.close();
@@ -19,7 +19,7 @@ import java.io.*;
 public class Main {
 	public static void main(String[] args) {
 		try{
-			Q15686 q = new Q15686();
+			Q1504 q = new Q1504();
 			
 			//q.solve();
 			System.out.println(q.solve());
