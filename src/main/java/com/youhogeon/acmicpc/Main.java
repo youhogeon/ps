@@ -19,71 +19,80 @@ import java.io.*;
 public class Main {
 	public static void main(String[] args) {
 		try{
-			Q10830 q = new Q10830();
+			Q15686 q = new Q15686();
 			
-			q.solve();
-			//System.out.println(q.solve());
+			//q.solve();
+			System.out.println(q.solve());
 		}catch(IOException e){
 			System.out.println(e.toString());
 		}
 	}
 }
 
-class Q10830{
-	int N;
-	long B;
-	int[][] A;
+class Q15686{
+	int N, M;
+	List<Dot> house = new ArrayList<Dot>();
+	List<Dot> chicken = new ArrayList<Dot>();
+	int[][] distance;
 
-	public Q10830() throws IOException{
+	public Q15686() throws IOException{
 		Scanner sc = new Scanner(System.in);
 
 		N = sc.nextInt();
-		B = sc.nextLong();
-
-		A = new int[N][N];
-
+		M = sc.nextInt();
+		
 		for (int i = 0; i < N; i++){
-			for (int j = 0; j < N; j++) A[i][j] = sc.nextInt() % 1000;
+			for (int j = 0; j < N; j++){
+				int a = sc.nextInt();
+				
+				if (a == 1) house.add(new Dot(i, j));
+				else if (a == 2) chicken.add(new Dot(i, j));
+			}
 		}
 
 		sc.close();
 	}
+	
+	public int solve(){
+		distance = new int[house.size()][chicken.size()];
 
-	public void solve(){
-		A = power(A, B);
-		
-		for (int i = 0; i < N; i++){
-			for (int j = 0; j < N; j++){
-				System.out.print(Integer.toString(A[i][j]));
-				if (j != N - 1) System.out.print(" ");
-			}
-			System.out.println();
-		}
-	}
+		for (int i = 0; i < house.size(); i++){
+			Dot h = house.get(i);
 
-	public int[][] power(int[][] A, long B){
-		if (B == 1) return A;
+			for (int j = 0; j < chicken.size(); j++){
+				Dot c = chicken.get(j);
 
-		int[][] A2 = power(A, B / 2);
-		A2 = mul(A2, A2);
-		if (B % 2 == 1) A2 = mul(A2, A);
-
-		return A2;
-	}
-
-	public int[][] mul(int[][] A, int[][] B){
-		int[][] C = new int[N][N];
-
-		for (int i = 0; i < N; i++){
-			for (int j = 0; j < N; j++){
-				for (int k = 0; k < N; k++){
-					C[i][j] += A[i][k] * B[k][j];
-					C[i][j] %= 1000;
-				}
-				C[i][j] %= 1000;
+				distance[i][j] = Math.abs(h.x - c.x) + Math.abs(h.y - c.y);
 			}
 		}
 
-		return C;
+		int[] a = {0,1,2};
+		return sum(a);
+	}
+
+	public int sum(int[] survived){
+		int sum = 0;
+
+		for (int i = 0; i < house.size(); i++){
+			int min = 99999999;
+
+			int size = survived.length;
+			for (int j = 0; j < size; j++){
+				min = Math.min(min, distance[i][survived[j]]);
+			}
+
+			sum += min;
+		}
+
+		return sum;
+	}
+
+	class Dot{
+		int x, y;
+
+		public Dot(int x, int y){
+			this.x = x;
+			this.y = y;
+		}
 	}
 }
