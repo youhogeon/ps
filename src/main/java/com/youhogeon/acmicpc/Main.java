@@ -5,8 +5,10 @@ import com.youhogeon.unsolved.*;
 // 	int N, M;
 
 // 	public Q14502() throws IOException{
+//		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 // 		Scanner sc = new Scanner(System.in);
 		
+
 
 // 		sc.close();
 // 	}
@@ -18,10 +20,10 @@ import java.io.*;
 public class Main {
 	public static void main(String[] args) {
 		try{
-			Q17070 q = new Q17070();
+			Q2252 q = new Q2252();
 			
-			//q.solve();
-			System.out.println(q.solve());
+			q.solve();
+			//System.out.println(q.solve());
 		}catch(IOException e){
 			System.out.println(e.toString());
 		}
