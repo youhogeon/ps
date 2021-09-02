@@ -20,9 +20,9 @@ import java.io.*;
 public class Main {
 	public static void main(String[] args) {
 		try{
-			Q2252 q = new Q2252();
+			Q10942 q = new Q10942();
 			
-			q.solve();
+			//q.solve();
 			//System.out.println(q.solve());
 		}catch(IOException e){
 			System.out.println(e.toString());
