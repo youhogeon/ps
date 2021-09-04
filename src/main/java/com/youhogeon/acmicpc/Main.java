@@ -20,7 +20,7 @@ import java.io.*;
 public class Main {
 	public static void main(String[] args) {
 		try{
-			Q10942 q = new Q10942();
+			Q1007 q = new Q1007();
 			
 			//q.solve();
 			//System.out.println(q.solve());
