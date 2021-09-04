@@ -18,7 +18,7 @@ import java.io.*;
 public class Main {
 	public static void main(String[] args) {
 		try{
-			Q17070 q = new Q17070();
+			Q1202 q = new Q1202();
 			
 			//q.solve();
 			System.out.println(q.solve());
