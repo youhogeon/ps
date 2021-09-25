@@ -1,29 +1,8 @@
-package com.youhogeon.acmicpc;
+package com.youhogeon.acmicpc.unsolved;
 
-// class Q14502{
-// 	int N, M;
-
-// 	public Q14502() throws IOException{
-//		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-
-// 	}
-// }
-
-import java.util.*;
-import java.io.*;
-//import com.youhogeon.unsolved.*;
-
-public class Main {
-	public static void main(String[] args) {
-		try{
-			Q17387 q = new Q17387();
-			
-			System.out.println(q.solve());
-		}catch(IOException e){
-			System.out.println(e.toString());
-		}
-	}
-}
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 class Q17387{
 	Line l1, l2;
