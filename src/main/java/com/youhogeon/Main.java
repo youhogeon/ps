@@ -1,5 +1,5 @@
 package com.youhogeon;
-import com.youhogeon.acmicpc.*;
+//import com.youhogeon.acmicpc.*;
 
 // class Q14502{
 // 	int N, M;
@@ -14,7 +14,7 @@ import com.youhogeon.acmicpc.*;
 //	}
 // }
 
-import java.util.*;
+//import java.util.*;
 import java.io.*;
 
 public class Main {
@@ -40,6 +40,14 @@ class Q9527{
 	}
 
 	public long solve(){
-		
+		//int[] fixed = new int[53];
+
+		for (int i = 0; i < 53; i++){
+				 j = (long)Math.pow(2, i);
+
+			System.out.println(j);
+		}
+
+		return 0;
 	}
 }
