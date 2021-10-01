@@ -1,4 +1,4 @@
-package com.youhogeon;
+package com.youhogeon.acmicpc;
 
 import java.io.BufferedReader;
 import java.io.IOException;

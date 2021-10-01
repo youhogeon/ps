@@ -1,4 +1,4 @@
-package com.youhogeon;
+package com.youhogeon.acmicpc;
 
 import java.io.IOException;
 import java.util.Scanner;
