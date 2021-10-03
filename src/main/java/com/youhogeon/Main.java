@@ -20,7 +20,7 @@ import java.io.*;
 public class Main {
 	public static void main(String[] args) {
 		try{
-			Q2887 q = new Q2887();
+			Q16946 q = new Q16946();
 			
 			System.out.println(q.solve());
 		}catch(IOException e){
@@ -29,105 +29,102 @@ public class Main {
 	}
 }
 
-class Q2887{
-	int N;
-	List<Node> lists = new ArrayList<Node>();
-	int type = 1;
+class Q16946{
+	int N, M;
+	int[][] arr;
+	int[] dx = {-1, 1, 0, 0};
+	int[] dy = {0, 0, -1, 1};
 
-	public Q2887() throws IOException{
+	public Q16946() throws IOException{
 		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 
-		N = Integer.parseInt(bf.readLine());
+		String[] s = bf.readLine().split(" ");
+		N = Integer.parseInt(s[0]);
+		M = Integer.parseInt(s[1]);
+
+		arr = new int[N][M];
 
 		for (int i = 0; i < N; i++){
-			String[] s = bf.readLine().split(" ");
-
-			lists.add(new Node(i, Integer.parseInt(s[0]), Integer.parseInt(s[1]), Integer.parseInt(s[2])));
+			s = bf.readLine().split("");
+			for (int j = 0; j < M; j++) arr[i][j] = Integer.parseInt(s[j]);
 		}
 	}
 
-	public long solve(){
-		int[] min = new int[N];
-		for (int i = 0; i < N; i++) min[i] = Integer.MAX_VALUE;
+	public int solve(){
+		int id = 0;
+		Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+		map.put(-1, 0);
 
-		lists.sort(Comparator.naturalOrder());
-
-		for (int i = 0; i < N - 1; i++){
-			Node me = lists.get(i);
-
-			Node next = lists.get(i + 1);
-			min[me.id] = Math.min(min[me.id], Math.abs(me.x - next.x));
-		}
-
-		type = 2;
-		lists.sort(Comparator.naturalOrder());
-		for (int i = 0; i < N - 1; i++){
-			Node me = lists.get(i);
-
-			Node prev = lists.get(i + 1);
-			min[me.id] = Math.min(min[me.id], Math.abs(me.y - prev.y));
-		}
-
-		type = 3;
-		lists.sort(Comparator.naturalOrder());
-
-		for (int i = 0; i < N - 1; i++){
-			Node me = lists.get(i);
-
-			Node prev = lists.get(i + 1);
-			min[me.id] = Math.min(min[me.id], Math.abs(me.z - prev.z));
-		}
-
-		long sum = 0;
-		int max = -1;
 		for (int i = 0; i < N; i++){
-			max = Math.max(max, min[i]);
-			sum += min[i];
+			for (int j = 0; j < M; j++){
+				if (arr[i][j] > 0) continue;
+
+				Queue<Dot> queue = new LinkedList<Dot>();
+				queue.offer(new Dot(i, j));
+
+				int count = 0;
+				
+				while (!queue.isEmpty()){
+					Dot me = queue.poll();
+					arr[me.x][me.y] = 10 + id;
+					count++;
+
+					for (int k = 0; k < 4; k++){
+						int x = me.x + dx[k];
+						int y = me.y + dy[k];
+						
+						if (x < 0 || y < 0 || x >= N || y >= M) continue;
+						if (arr[x][y] != 0) continue;
+						
+						queue.offer(new Dot(x, y));
+					}
+				}
+				
+				id++;
+				map.put(id, count);
+			}
 		}
 
-		return sum - max;
+		StringBuilder sb = new StringBuilder();
+
+		for (int i = 0; i < N; i++){
+			for (int j = 0; j < M; j++){
+				if (arr[i][j] >= 10){
+					sb.append("0");
+					continue;
+				}
+
+				int[] cache = {-1, -1, -1, -1};
+
+				loop:
+				for (int k = 0; k < 4; k++){
+					int x = i + dx[k];
+					int y = j + dy[k];
+					
+					if (x < 0 || y < 0 || x >= N || y >= M) continue;
+					if (arr[x][y] == 1) continue;
+
+					for (int q = 0; q < 4; q++){
+						if (cache[q] == arr[x][y] - 10) continue loop;
+					}
+
+					cache[k] = arr[x][y] - 10;
+				}
+
+				sb.append( (map.get(cache[0]) + map.get(cache[1]) + map.get(cache[2]) + map.get(cache[3])) % 10 );
+			}
+			sb.append("\n");
+		}
+
+		return 1;
 	}
 
-	class Node implements Comparable<Node>{
-		int id, x, y, z;
+	public class Dot{
+		int x, y;
 
-		public Node(int id, int x, int y, int z){
-			this.id = id;
+		public Dot(int x, int y){
 			this.x = x;
 			this.y = y;
-			this.z = z;
-		}
-
-		public int compareTo(Node n){
-			if (type == 1){
-				if (this.x > n.x) return 1;
-				if (this.x < n.x) return -1;
-			}else if (type == 2){
-				if (this.y > n.y) return 1;
-				if (this.y < n.y) return -1;
-			}else{
-				if (this.z > n.z) return 1;
-				if (this.z < n.z) return -1;
-			}
-
-			return 0;
-		}
-	}
-
-	class Line implements Comparable<Line>{
-		int from, to, cost;
-
-		public Line(int from, int to, int cost){
-			this.from = from;
-			this.to = to;
-			this.cost = cost;
-		}
-
-		public int compareTo(Line l){
-			if (this.cost > l.cost) return 1;
-			if (this.cost < l.cost) return -1;
-
-			return 0;
 		}
 	}
 }
