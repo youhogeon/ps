@@ -32,8 +32,8 @@ public class Main {
 class Q16946{
 	int N, M;
 	int[][] arr;
-	int[] dx = {-1, 1, 0, 0};
-	int[] dy = {0, 0, -1, 1};
+	int[] dx = {-1, 0};
+	int[] dy = {0, -1};
 
 	public Q16946() throws IOException{
 		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
@@ -50,23 +50,66 @@ class Q16946{
 		}
 	}
 
-	public int solve(){
-		int id = 0;
-		Map<Integer, Integer> map = new HashMap<Integer, Integer>();
-		map.put(-1, 0);
+	public String solve(){
+		int id = 10;
+		int[][][] cache = new int[N][M][4];
+		//Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+		int[] map2 = new int[1000000];
+		Queue<Dot> queue = new LinkedList<Dot>();
 
 		for (int i = 0; i < N; i++){
 			for (int j = 0; j < M; j++){
-				if (arr[i][j] > 0) continue;
+				if (arr[i][j] == 0){
+					int max = -1;
+					for (int k = 0; k < 2; k++){
+						int x = i + dx[k];
+						int y = j + dy[k];
+	
+						if (x < 0 || y < 0 || x >= N || y >= M) continue;
+	
+						max = Math.max(arr[x][y], max);
+					}
+	
+					if (max >= 10) arr[i][j] = max;
+					else arr[i][j] = id++;
+					
+					map2[arr[i][j]]++;
 
-				Queue<Dot> queue = new LinkedList<Dot>();
-				queue.offer(new Dot(i, j));
+					for (int k = 0; k < 2; k++){
+						int x = i + dx[k];
+						int y = j + dy[k];
+	
+						if (x < 0 || y < 0 || x >= N || y >= M) continue;
+	
+						for (int q = 0; q < 4; q++){
+							if (cache[x][y][q] == 0 || cache[x][y][q] == arr[i][j]){
+								cache[x][y][q] = arr[i][j];
+								break;
+							}
+						}
+					}
+				}else{
+					for (int k = 0; k < 2; k++){
+						int x = i + dx[k];
+						int y = j + dy[k];
+	
+						if (x < 0 || y < 0 || x >= N || y >= M) continue;
+	
+						if (arr[x][y] == 1) continue;
 
-				int count = 0;
+						for (int q = 0; q < 4; q++){
+							if (cache[i][j][q] == 0 || cache[i][j][q] == arr[x][y]){
+								cache[i][j][q] = arr[x][y];
+								break;
+							}
+						}
+					}
+				}
 				
+				/*queue.offer(new Dot(i, j));
 				while (!queue.isEmpty()){
 					Dot me = queue.poll();
-					arr[me.x][me.y] = 10 + id;
+					arr[me.x][me.y] = id;
 					count++;
 
 					for (int k = 0; k < 4; k++){
@@ -74,14 +117,19 @@ class Q16946{
 						int y = me.y + dy[k];
 						
 						if (x < 0 || y < 0 || x >= N || y >= M) continue;
-						if (arr[x][y] != 0) continue;
-						
-						queue.offer(new Dot(x, y));
+						if (arr[x][y] == 0) queue.offer(new Dot(x, y));
+						else if (arr[x][y] == 1){
+							for (int q = 0; q < 4; q++){
+								if (cache[x][y][q] == 0 || cache[x][y][q] == id){
+									cache[x][y][q] = id;
+									break;
+								}
+							}
+						}
 					}
-				}
+				}*/
 				
-				id++;
-				map.put(id, count);
+				//map.put(id++, count);
 			}
 		}
 
@@ -94,29 +142,20 @@ class Q16946{
 					continue;
 				}
 
-				int[] cache = {-1, -1, -1, -1};
-
-				loop:
+				int sum = 1;
 				for (int k = 0; k < 4; k++){
-					int x = i + dx[k];
-					int y = j + dy[k];
-					
-					if (x < 0 || y < 0 || x >= N || y >= M) continue;
-					if (arr[x][y] == 1) continue;
+					if (cache[i][j][k] == 0) break;
 
-					for (int q = 0; q < 4; q++){
-						if (cache[q] == arr[x][y] - 10) continue loop;
-					}
-
-					cache[k] = arr[x][y] - 10;
+					//sum += map.get(cache[i][j][k]);
+					sum += map2[cache[i][j][k]];
 				}
 
-				sb.append( (map.get(cache[0]) + map.get(cache[1]) + map.get(cache[2]) + map.get(cache[3])) % 10 );
+				sb.append(sum % 10);
 			}
 			sb.append("\n");
 		}
 
-		return 1;
+		return sb.toString();
 	}
 
 	public class Dot{
