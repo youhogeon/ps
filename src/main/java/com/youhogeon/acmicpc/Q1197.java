@@ -3,70 +3,86 @@ package com.youhogeon.acmicpc;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.LinkedList;
 import java.util.PriorityQueue;
+import java.util.Queue;
 
-class Q1197{
-	int V, E;
-	int[] parent;
+class Q1197 {
+
+	int V;
 	PriorityQueue<Line> lines = new PriorityQueue<Line>();
+	int[] head;
 
-	public Q1197() throws IOException{
+	public Q1197() throws IOException {
 		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 
-		String[] s = bf.readLine().split(" ");
-		V = Integer.parseInt(s[0]);
-		E = Integer.parseInt(s[1]);
+		String[] str = bf.readLine().split(" ");
+		V = Integer.parseInt(str[0]);
+		int E = Integer.parseInt(str[1]);
 
-		parent = new int[V];
-
-		for (int i = 0; i < E; i++){
-			s = bf.readLine().split(" ");
-			lines.offer(new Line(Integer.parseInt(s[0]) - 1, Integer.parseInt(s[1]) - 1, Integer.parseInt(s[2])));
+		head = new int[V];
+		for (int i = 1; i < V; i++) head[i] = i;
+		
+		while (E-- > 0) {
+			str = bf.readLine().split(" ");
+			
+			lines.add(new Line(Integer.parseInt(str[0]) - 1, Integer.parseInt(str[1]) - 1, Integer.parseInt(str[2])));
 		}
 	}
 
-	public int solve(){
-		int count = 0;
+	public int solve() {
 		int sum = 0;
 
-		for (int i = 0; i < V; i++) parent[i] = i;
+		while (!lines.isEmpty() && V > 1){
+			Line l = lines.poll();
 
-		while (!lines.isEmpty()){
-			Line me = lines.poll();
+			if (find(l.from) == find(l.to)) continue;
 
-			if (findParent(me.from) == findParent(me.to)) continue;
-
-			parent[findParent(me.from)] = findParent(me.to);
-			count++;
-			sum += me.len;
-
-			if (count == V - 1) break;
+			union(l.from, l.to);
+			sum += l.cost;
+			V--;
 		}
 
 		return sum;
 	}
 
-	private int findParent(int idx){
-		if (parent[idx] == idx) return idx;
+	public int find(int a) {
+		Queue<Integer> queue = new LinkedList<Integer>();
 
-		return findParent(parent[idx]);
-	}
-
-	class Line implements Comparable<Line>{
-		int len;
-		int from, to;
-
-		public Line(int from, int to, int len){
-			this.from = from;
-			this.to = to;
-			this.len = len;
+		while (a != head[a]) {
+			queue.add(a);
+			a = head[a];
 		}
 
-		public int compareTo(Line l){
-			if (l.len < this.len) return 1;
-			if (l.len > this.len) return -1;
+		while (!queue.isEmpty()) {
+			head[queue.poll()] = a;
+		}
+
+		return a;
+	}
+
+	public void union(int a, int b) {
+		head[find(a)] = find(b);
+	}
+
+	class Line implements Comparable<Line> {
+
+		int from, to, cost;
+
+		public Line(int from, int to, int cost) {
+			this.from = from;
+			this.to = to;
+			this.cost = cost;
+		}
+
+		@Override
+		public int compareTo(Line o) {
+			if (this.cost > o.cost) return 1;
+			if (this.cost < o.cost) return -1;
 
 			return 0;
 		}
+
 	}
+
 }

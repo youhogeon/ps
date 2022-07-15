@@ -5,36 +5,41 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 class Q1806{
-	int N, M;
-	int[] arr;
+	int N, S;
+	int[] nums;
 
 	public Q1806() throws IOException{
 		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-		
-		String[] s = bf.readLine().split(" ");
-		N = Integer.parseInt(s[0]);
-		M = Integer.parseInt(s[1]);
-		arr = new int[N];
 
-		s = bf.readLine().split(" ");
-		for (int i = 0; i < N; i++) arr[i] = Integer.parseInt(s[i]);
+		String[] str = bf.readLine().split(" ");
+		N = Integer.parseInt(str[0]);
+		S = Integer.parseInt(str[1]);
+
+		str = bf.readLine().split(" ");
+		nums = new int[N];
+		for (int i = 0; i < N; i++) nums[i] = Integer.parseInt(str[i]);
 	}
 
 	public int solve(){
-		int sum = arr[0];
-		int begin = 0;
-		int end = 1;
-		int min = 99999999;
+		int idxA = 0, idxB = 0, sum = 0, min = 0x7FFFFFFF;
 
-		while(true){
-			if (sum >= M) sum -= arr[begin++];
-			
-			if (sum < M && end > N - 1) break;
-			if (sum < M) sum += arr[end++];
+		while (true) {
+			if (sum >= S) {
+				sum -= nums[idxA];
+				idxA++;
+			}else if (sum < S) {
+				if (idxB >= N) break;
 
-			if (sum >= M) min = Math.min(min, end - begin);
+				sum += nums[idxB];
+				idxB++;
+			}
+
+			if (sum >= S) {
+				min = Math.min(min, idxB - idxA);
+			}
+
 		}
 
-		return min==99999999?0:min;
+		return min > 100000 ? 0 : min;
 	}
 }
