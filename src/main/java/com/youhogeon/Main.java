@@ -22,7 +22,7 @@ import java.io.*;
 public class Main {
 	public static void main(String[] args) {
 		try{
-			Q17143 q = new Q17143();
+			Q14939 q = new Q14939();
 			
 			System.out.println(q.solve());
 		}catch(IOException e){

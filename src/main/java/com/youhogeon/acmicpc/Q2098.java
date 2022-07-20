@@ -3,50 +3,61 @@ package com.youhogeon.acmicpc;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
 
 class Q2098{
 	int N;
-	int[][] arr, dp;
-	int INF = 20000000;
+	int[][] cost;
+	Map<Integer, Long> cache = new HashMap<Integer, Long>();
+	int max;
 
-	public Q2098() throws IOException{
+	public Q2098() throws IOException {
 		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 
-		N = Integer.parseInt(bf.readLine());
-		arr = new int[N][N];
+		String[] str = bf.readLine().split(" ");
+		N = Integer.parseInt(str[0]);
 
-		for (int i = 0; i < N; i++){
-			String[] s = bf.readLine().split(" ");
-			for (int j = 0; j < N; j++) arr[i][j] = Integer.parseInt(s[j]);
+		cost = new int[N][N];
+		
+		for (int i = 0; i < N; i++) {
+			str = bf.readLine().split(" ");
+			for (int j = 0; j < N; j++) {
+				cost[i][j] = Integer.parseInt(str[j]);
+				if (cost[i][j] == 0) cost[i][j] = Integer.MAX_VALUE;
+			}
 		}
+
+		max = (1 << N) - 1;
 	}
 
-	public int solve(){
-		dp = new int[N][(1 << N)];
-		for (int i = 0; i < N; i++){
-			for (int j = 0; j < (1 << N); j++) dp[i][j] = INF;
-		}
-
-		return dp(0, 1);
+	public int solve() {
+		int result = (int)calc(0, 1);
+		return result;
 	}
 
-	public int dp(int id, int visited){
-		if (visited == (1 << N) - 1){
-			if (arr[id][0] == 0) return INF;
-			
-			return arr[id][0];
+	public long calc(int id, int visited) {
+		long min = Long.MAX_VALUE;
+		int key = makeKey(id, visited);
+
+		if (visited == max) return cost[id][0];
+
+		if (cache.containsKey(key)) return cache.get(key);
+
+		for (int i = 0; i < N; i++) {
+			if ((visited & (1 << i)) != 0) continue;
+
+			min = Math.min(min, calc(i, visited | (1 << i)) + cost[id][i]);
 		}
 
-		if (dp[id][visited] != INF) return dp[id][visited];
+		cache.put(key, min);
+		return min;
+	}
 
-		for (int i = 0; i < N; i++){
-			int next = (1 << i) | visited;
+	public int makeKey(int id, int visited) {
+		int key = id << 20;
+		key = key | visited;
 
-			if (arr[id][i] == 0 || (visited & (1 << i)) > 0) continue;
-
-			dp[id][visited] = Math.min(dp[id][visited], dp(i, next) + arr[id][i]);
-		}
-
-		return dp[id][visited];
+		return key;
 	}
 }
