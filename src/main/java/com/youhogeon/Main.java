@@ -22,9 +22,10 @@ import java.io.*;
 public class Main {
 	public static void main(String[] args) {
 		try{
-			Q1509 q = new Q1509();
+			Q2741 q = new Q2741();
 			
-			System.out.println(q.solve());
+			//System.out.println(q.solve());
+			q.solve();
 		}catch(IOException e){
 			System.out.println(e.toString());
 		}

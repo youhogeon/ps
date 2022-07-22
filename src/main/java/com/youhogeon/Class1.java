@@ -3,6 +3,21 @@ package com.youhogeon;
 import java.util.*;
 import java.io.*;
 
+class Q2741{
+	int N;
+
+	public Q2741() throws IOException {
+		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+
+		N = Integer.parseInt(bf.readLine());
+
+	}
+	
+	public void solve() {
+		for (int i = 1; i <= N; i++) System.out.println(i);
+	}
+}
+
 class Q2739{
 	int N;
 
