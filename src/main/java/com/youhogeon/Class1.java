@@ -18,6 +18,20 @@ class Q2741{
 	}
 }
 
+class Q2753{
+	int N;
+
+	public Q2753() throws IOException {
+		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+
+		N = Integer.parseInt(bf.readLine());
+	}
+
+	public int solve() {
+		return (N % 4 == 0 && (N % 400 == 0 || N % 100 > 0)) ? 1 : 0;
+	}
+}
+
 class Q2739{
 	int N;
 
