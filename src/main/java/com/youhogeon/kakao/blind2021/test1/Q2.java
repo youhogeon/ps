@@ -1,4 +1,4 @@
-package com.youhogeon.kakao.blind2021;
+package com.youhogeon.kakao.blind2021.test1;
 
 import java.util.*;
 
