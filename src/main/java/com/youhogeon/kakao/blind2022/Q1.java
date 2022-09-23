@@ -18,7 +18,7 @@ public class Q1 {
                 logs.add(report[i]);
     
                 String[] strs = report[i].split(" ");
-                int a = ids.get(strs[0]), b = ids.get(strs[1]);
+                int b = ids.get(strs[1]);
     
                 count.put(b, count.getOrDefault(b, 0) + 1);
             }
