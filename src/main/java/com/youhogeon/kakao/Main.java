@@ -1,10 +1,10 @@
 package com.youhogeon.kakao;
 
-import com.youhogeon.kakao.intern2019.*;
+import com.youhogeon.kakao.blind2023.*;
 
 public class Main {
 
     public static void main(String[] args) {
-        (new Q5()).solve();
+        (new Q1()).solve();
     }
 }
