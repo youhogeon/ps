@@ -1,0 +1,13 @@
+{
+  "name": "blind2023",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index"
+  },
+  "author": "YouHoGeon",
+  "dependencies": {
+    "axios": "^0.27.2"
+  }
+}
