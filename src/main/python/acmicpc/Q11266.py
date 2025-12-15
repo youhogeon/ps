@@ -1,10 +1,13 @@
+#11266
+
 import sys
+
 input = sys.stdin.readline
 sys.setrecursionlimit(100000)
 
 N, M = map(int, input().split())
 
-children = [set() for _ in range(N)]
+children: list[set[int]] = [set() for _ in range(N)]
 
 for _ in range(M):
     a, b = map(int, input().split())
@@ -12,49 +15,48 @@ for _ in range(M):
     children[a-1].add(b-1)
     children[b-1].add(a-1)
 
-visited = [False] * N
-nid = [0] * N
-mins = [1000000] * N
-count = 0
+seq = [-1] * N
+is_cut_node = [False] * N
+counter = 0
 
-is_djj = [False] * N
+def dfs(curr: int, parent: int) -> int:
+    global counter
 
-def dfs(i: int, parent: int):
-    global count
-    count += 1
-    
-    nid[i] = count
-    mins[i] = count
-    visited[i] = True
-    
-    child_cnt = 0
+    seq[curr] = counter
+    counter += 1
 
-    for child in children[i]:
+    return_value = 9999999999
+    child_counter = 0
+
+    for child in children[curr]:
         if child == parent:
             continue
 
-        if not visited[child]:
-            dfs(child, i)
+        if seq[child] != -1: # visited
+            return_value = min(return_value, seq[child])
 
-            mins[i] = min(mins[i], mins[child])
+            continue
 
-            if parent != -1 and mins[child] >= nid[i]:
-                is_djj[i] = True
-            
-            child_cnt += 1
-        else:
-            mins[i] = min(mins[i], nid[child])
+        child_value = dfs(child, curr)
+        child_counter += 1
+        return_value = min(return_value, child_value)
 
-    if parent == -1 and child_cnt >= 2:
-        is_djj[i] = True
+        if child_value >= seq[curr]:
+            is_cut_node[curr] = True
+
+    if parent == -1 and child_counter > 1:
+        is_cut_node[curr] = True
+
+    return return_value
+
 
 for i in range(N):
-    if visited[i]:
+    if seq[i] != -1:
         continue
 
     dfs(i, -1)
 
-djj_cnt = [(i + 1) for i, v in enumerate(is_djj) if v]
+cut_nodes = [i + 1 for i, is_cut in enumerate(is_cut_node) if is_cut]
 
-print(len(djj_cnt))
-print(" ".join(map(str, djj_cnt)))
+print(len(cut_nodes))
+print(" ".join(map(str, cut_nodes)))
